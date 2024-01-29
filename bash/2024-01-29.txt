@@ -1,0 +1,549 @@
+clark@nsm-stats:~$ # Goal:
+clark@nsm-stats:~$ # 1. understand what data is- bytes, KB, MB, etc.
+clark@nsm-stats:~$ # 2. introduce the weather data for the first assignment.
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # What is a byte?
+clark@nsm-stats:~$ ls
+2024-01-24.sh  name.txt  stat129
+clark@nsm-stats:~$ ls -l
+total 12
+-rw-rw-r-- 1 clark clark   21 Jan 26 17:58 2024-01-24.sh
+-rw-rw-r-- 1 clark clark    6 Jan 29 18:34 name.txt
+drwxrwxr-x 2 clark clark 4096 Jan 26 20:38 stat129
+clark@nsm-stats:~$ # a byte is a 8 bits
+clark@nsm-stats:~$ # that is, 8 1's and 0's
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo "hi"
+hi
+clark@nsm-stats:~$ echo "hi" | xxd -b
+00000000: 01101000 01101001 00001010                             hi.
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # take the output of echo "hi" and pipe | it into the program xxd
+clark@nsm-stats:~$
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # Here are the 1's and 0's
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # Figure out what each of the bytes MEANS
+clark@nsm-stats:~$ ^C
+clark@nsm-stats:~$ # What does 01101000 actually mean?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo "hi" | xxd -b
+00000000: 01101000 01101001 00001010                             hi.
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # What does 01101000 actually mean? - that's an "h"
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # Is it the same as an uppercase "H"?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # Do an experiment, explain to your neighbor the output.
+clark@nsm-stats:~$
+clark@nsm-stats:~$ su fitzgerald
+Password:
+fitzgerald@nsm-stats:/home/clark$ man useradd
+fitzgerald@nsm-stats:/home/clark$ sudo adduser rbreshears
+[sudo] password for fitzgerald:
+Adding user `rbreshears' ...
+Adding new group `rbreshears' (1028) ...
+Adding new user `rbreshears' (1026) with group `rbreshears' ...
+Creating home directory `/home/rbreshears' ...
+Copying files from `/etc/skel' ...
+New password:
+Retype new password:
+passwd: password updated successfully
+Changing the user information for rbreshears
+Enter the new value, or press ENTER for the default
+        Full Name []:
+        Room Number []:
+        Work Phone []:
+        Home Phone []:
+        Other []:
+Is the information correct? [Y/n] y
+fitzgerald@nsm-stats:/home/clark$ exit
+exit
+clark@nsm-stats:~$ # Is it the same as an uppercase "H"?
+clark@nsm-stats:~$ echo "hi" | xxd -b
+00000000: 01101000 01101001 00001010                             hi.
+clark@nsm-stats:~$
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo "Hi" | xxd -b
+00000000: 01001000 01101001 00001010                             Hi.
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo "Hi" | xxd
+00000000: 4869 0a                                  Hi.
+clark@nsm-stats:~$ echo "Hi" | xxd -b
+00000000: 01001000 01101001 00001010                             Hi.
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # we've seen upper and lowercase letters
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # how about numbers and punctuation?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # are those also bytes?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo "Hi there!" | xxd -b
+00000000: 01001000 01101001 00100000 01110100 01101000 01100101  Hi the
+00000006: 01110010 01100101 00100001 00001010                    re!.
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo "Hi there!" | xxd -b^C
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # wc is for word count
+clark@nsm-stats:~$ man wc
+clark@nsm-stats:~$ echo "Hi there!" | wc --bytes
+10
+clark@nsm-stats:~$ echo "Hi" | wc --bytes
+3
+clark@nsm-stats:~$ echo "Hi" | xxd -b
+00000000: 01001000 01101001 00001010                             Hi.
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo "" | xxd -b
+00000000: 00001010                                               .
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo
+
+clark@nsm-stats:~$ echo
+
+clark@nsm-stats:~$ # that mystery last character / byte is a newline
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo "Hi there!" | wc --bytes
+10
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo "Hi there!" | xxd -b
+00000000: 01001000 01101001 00100000 01110100 01101000 01100101  Hi the
+00000006: 01110010 01100101 00100001 00001010                    re!.
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # how many possible characters are there in ASCII?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # ASCII encoding- subset of UTF-8
+clark@nsm-stats:~$ # Most popular character encoding
+clark@nsm-stats:~$
+clark@nsm-stats:~$ python
+Command 'python' not found, did you mean:
+  command 'python3' from deb python3
+  command 'python' from deb python-is-python3
+clark@nsm-stats:~$ python3
+Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 2**8
+256
+>>> 2**7
+128
+>>> 2**7 - 1
+127
+>>> quit()
+clark@nsm-stats:~$ # did some quick calculations in Python
+clark@nsm-stats:~$
+clark@nsm-stats:~$ ls /stat129
+2020.csv.gz  2021.csv.gz  2022.csv.gz  ghcnd-inventory.txt  ghcnd-stations.txt
+clark@nsm-stats:~$
+clark@nsm-stats:~$ ls /stat129 | wc
+      5       5      75
+clark@nsm-stats:~$ # There are 5 files inside /stat129
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # How large are these files?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ du -h /stat129
+439M    /stat129
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # This says there are 439 MB worth of files in the directory /stat129
+clark@nsm-stats:~$
+clark@nsm-stats:~$ du -h /stat129/2020.csv.gz
+155M    /stat129/2020.csv.gz
+clark@nsm-stats:~$ # This particular file is 155 MB
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # What kind of file is it?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ file /stat129/2020.csv.gz
+/stat129/2020.csv.gz: gzip compressed data, from FAT filesystem (MS-DOS, OS/2, NT), original size modulo 2^32 1298225861
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # 1.29 billion ...
+clark@nsm-stats:~$ # bytes
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # What does compressed mean?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ gzip -l /stat129/2020.csv.gz
+         compressed        uncompressed  ratio uncompressed_name
+          162021581          1298225861  87.5% /stat129/2020.csv
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # The file, when compressed, is 87.5% smaller
+clark@nsm-stats:~$
+clark@nsm-stats:~$ du -h /stat129/2020.csv.gz
+155M    /stat129/2020.csv.gz
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # 162 million bytes when compressed
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # Yet du -h says 155 MB
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # du - disk usage
+clark@nsm-stats:~$ # Why 162 million bytes and 155 MB?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # What's a KB? (Kilobyte)
+clark@nsm-stats:~$
+clark@nsm-stats:~$ python
+Command 'python' not found, did you mean:
+  command 'python3' from deb python3
+  command 'python' from deb python-is-python3
+clark@nsm-stats:~$ python3
+Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 2**10
+1024
+>>>
+>>> 2**20
+1048576
+>>> 162e6
+162000000.0
+>>> 162e6 / (2**20)
+154.4952392578125
+>>> q()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'q' is not defined
+>>> quit()
+clark@nsm-stats:~$ python
+Command 'python' not found, did you mean:
+  command 'python3' from deb python3
+  command 'python' from deb python-is-python3
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # bytes
+clark@nsm-stats:~$ # KB - 2^10
+clark@nsm-stats:~$ # MB - 2^20
+clark@nsm-stats:~$ # GB gigabytes
+clark@nsm-stats:~$ # TB Terabytes
+clark@nsm-stats:~$ # PB Petabytes
+clark@nsm-stats:~$ # Exabytes??? look it up
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # In this class- we'll get to data on the order of
+clark@nsm-stats:~$ # GB and TB
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # let's look at our data
+clark@nsm-stats:~$
+clark@nsm-stats:~$ ls /stat129
+2020.csv.gz  2021.csv.gz  2022.csv.gz  ghcnd-inventory.txt  ghcnd-stations.txt
+clark@nsm-stats:~$
+clark@nsm-stats:~$ zcat /stat129/2020.csv.gz | head
+AE000041196,20200101,TMIN,168,,,S,
+AE000041196,20200101,PRCP,0,D,,S,
+AE000041196,20200101,TAVG,211,H,,S,
+AEM00041194,20200101,PRCP,0,,,S,
+AEM00041194,20200101,TAVG,217,H,,S,
+AEM00041217,20200101,TAVG,205,H,,S,
+AEM00041218,20200101,TMIN,148,,,S,
+AEM00041218,20200101,TAVG,199,H,,S,
+AFM00040938,20200101,PRCP,23,,,S,
+AFM00040938,20200101,TAVG,54,H,,S,
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # | head - look at the first 10 lines of data
+clark@nsm-stats:~$ # zcat - concatenate a gzipped text file
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # What's the form / structure of this data?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # What patterns do you observe?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # We see many commas
+clark@nsm-stats:~$ # This is actually a CSV file
+clark@nsm-stats:~$ # CSV - comma separated (variable)
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # Each row is an observation
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # Each column is separated by a ,
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # How many columns?
+clark@nsm-stats:~$ # 7 commas, that means 8 columns
+clark@nsm-stats:~$ echo "name,eye
+> clark,blue
+> jackie,brown
+> neida,brown" > eyes.csv
+clark@nsm-stats:~$ cat eyes.csv
+name,eye
+clark,blue
+jackie,brown
+neida,brown
+clark@nsm-stats:~$ zcat /stat129/2020.csv.gz | head
+AE000041196,20200101,TMIN,168,,,S,
+AE000041196,20200101,PRCP,0,D,,S,
+AE000041196,20200101,TAVG,211,H,,S,
+AEM00041194,20200101,PRCP,0,,,S,
+AEM00041194,20200101,TAVG,217,H,,S,
+AEM00041217,20200101,TAVG,205,H,,S,
+AEM00041218,20200101,TMIN,148,,,S,
+AEM00041218,20200101,TAVG,199,H,,S,
+AFM00040938,20200101,PRCP,23,,,S,
+AFM00040938,20200101,TAVG,54,H,,S,
+clark@nsm-stats:~$ echo "name,eye
+clark,blue
+jackie,brown
+neida,brown" > eyes.csv^C
+clark@nsm-stats:~$ zcat /stat129/2020.csv.gz | head^C
+clark@nsm-stats:~$
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # verify our understanding of the bytes
+clark@nsm-stats:~$
+clark@nsm-stats:~$ cat eyes.csv
+name,eye
+clark,blue
+jackie,brown
+neida,brown
+clark@nsm-stats:~$ cat eyes.csv | wc
+      4       4      45
+clark@nsm-stats:~$ zcat /stat129/2020.csv.gz | wc
+36172539 36172539 1298225861
+clark@nsm-stats:~$ # How many lines?
+clark@nsm-stats:~$ # About 36 million
+clark@nsm-stats:~$ # about 1.3 billion bytes / character
+clark@nsm-stats:~$ gzip -l /stat129/2020.csv.gz
+         compressed        uncompressed  ratio uncompressed_name
+          162021581          1298225861  87.5% /stat129/2020.csv
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # What would you like to know about 2020.csv.gz?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ zcat /stat129/2020.csv.gz | head
+AE000041196,20200101,TMIN,168,,,S,
+AE000041196,20200101,PRCP,0,D,,S,
+AE000041196,20200101,TAVG,211,H,,S,
+AEM00041194,20200101,PRCP,0,,,S,
+AEM00041194,20200101,TAVG,217,H,,S,
+AEM00041217,20200101,TAVG,205,H,,S,
+AEM00041218,20200101,TMIN,148,,,S,
+AEM00041218,20200101,TAVG,199,H,,S,
+AFM00040938,20200101,PRCP,23,,,S,
+AFM00040938,20200101,TAVG,54,H,,S,
+clark@nsm-stats:~$
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # Share with your neighbor
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # How much missing data is in each column?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # do we have a unique identifier for each row?
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # What do the columns / rows represent?
+clark@nsm-stats:~$ # That's my first question when looking at tabular data
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo "123" | xxd -b
+00000000: 00110001 00110010 00110011 00001010                    123.
+clark@nsm-stats:~$
+clark@nsm-stats:~$ echo "hi 123" | xxd -b
+00000000: 01101000 01101001 00100000 00110001 00110010 00110011  hi 123
+00000006: 00001010                                               .
+clark@nsm-stats:~$ zcat /stat129/2020.csv.gz | head
+AE000041196,20200101,TMIN,168,,,S,
+AE000041196,20200101,PRCP,0,D,,S,
+AE000041196,20200101,TAVG,211,H,,S,
+AEM00041194,20200101,PRCP,0,,,S,
+AEM00041194,20200101,TAVG,217,H,,S,
+AEM00041217,20200101,TAVG,205,H,,S,
+AEM00041218,20200101,TMIN,148,,,S,
+AEM00041218,20200101,TAVG,199,H,,S,
+AFM00040938,20200101,PRCP,23,,,S,
+AFM00040938,20200101,TAVG,54,H,,S,
+clark@nsm-stats:~$
+clark@nsm-stats:~$
+clark@nsm-stats:~$ grep "AE000041196" /stat129/*.txt
+/stat129/ghcnd-inventory.txt:AE000041196  25.3330   55.5170 TMAX 1944 2024
+/stat129/ghcnd-inventory.txt:AE000041196  25.3330   55.5170 TMIN 1944 2024
+/stat129/ghcnd-inventory.txt:AE000041196  25.3330   55.5170 PRCP 1944 2024
+/stat129/ghcnd-inventory.txt:AE000041196  25.3330   55.5170 TAVG 1944 2024
+/stat129/ghcnd-stations.txt:AE000041196  25.3330   55.5170   34.0    SHARJAH INTER. AIRP            GSN     41196
+clark@nsm-stats:~$
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # grep - global regular expression pattern matching
+clark@nsm-stats:~$
+clark@nsm-stats:~$ # look for the pattern "AE000041196" in all the files ending in .txt in the /stat129 directory
+clark@nsm-stats:~$
+clark@nsm-stats:~$ history
+
+    1  whoami
+    2  exit
+    3  ls
+    4  vim 2024-01-24.sh
+    5  ls
+    6  cd
+    7  ls
+    8  tmux
+    9  exit
+   10  ls
+   11  whoami
+   12  exit
+   13  pwd
+   14  ls
+   15  pwd
+   16  # Pick a password
+   17  # passphrase
+   18  # change our passwords
+   19  passwd
+   20  pwd
+   21  ls
+   22  mkdir stat129
+   23  ls
+   24  exit
+   25  ls /stat129
+   26  ls /
+   27  # What kind of files are in /stat129?
+   28  file /stat129/2020.csv.gz
+   29  echo "hi
+   30  there
+   31  lets
+   32  write" | wc
+   33  ls
+   34  cd
+   35  ls
+   36  wc /stat129/ghcnd-stations.txt
+   37  wc -l /stat129/ghcnd-stations.txt
+   38  zcat /stat129/2020.csv.gz | head
+   39  zcat /stat129/2020.csv.gz | wc -l
+   40  zcat /stat129/2020.csv.gz | head > /stat129/tiny.csv
+   41  # What would you like to know about this data?
+   42  gzip -l /stat129/2020.csv.gz
+   43  # How big is it?
+   44  du -h /stat129/2020.csv.gz
+   45  python3
+   46  python3
+   47  zcat /stat129/2020.csv.gz | wc
+   48  echo "clark" > name.txt
+   49  cat name.txt
+   50  cat name.txt | wc
+   51  # What is a byte?
+   52  history
+   53  exit
+   54  # Goal:
+   55  # 1. understand what data is- bytes, KB, MB, etc.
+   56  # 2. introduce the weather data for the first assignment.
+   57  # What is a byte?
+   58  ls
+   59  ls -l
+   60  # a byte is a 8 bits
+   61  # that is, 8 1's and 0's
+   62  echo "hi"
+   63  echo "hi" | xxd -b
+   64  # take the output of echo "hi" and pipe | it into the program xxd
+   65  # Here are the 1's and 0's
+   66  # Figure out what each of the bytes MEANS
+   67  # What does 01101000 actually mean?
+   68  echo "hi" | xxd -b
+   69  # What does 01101000 actually mean? - that's an "h"
+   70  # Is it the same as an uppercase "H"?
+   71  # Do an experiment, explain to your neighbor the output.
+   72  su fitzgerald
+   73  # Is it the same as an uppercase "H"?
+   74  echo "hi" | xxd -b
+   75  echo "Hi" | xxd -b
+   76  echo "Hi" | xxd
+   77  echo "Hi" | xxd -b
+   78  # we've seen upper and lowercase letters
+   79  # how about numbers and punctuation?
+   80  # are those also bytes?
+   81  echo "Hi there!" | xxd -b
+   82  # wc is for word count
+   83  man wc
+   84  echo "Hi there!" | wc --bytes
+   85  echo "Hi" | wc --bytes
+   86  echo "Hi" | xxd -b
+   87  echo "" | xxd -b
+   88  echo
+   89  echo
+   90  # that mystery last character / byte is a newline
+   91  echo "Hi there!" | wc --bytes
+   92  echo "Hi there!" | xxd -b
+   93  # how many possible characters are there in ASCII?
+   94  # ASCII encoding- subset of UTF-8
+   95  # Most popular character encoding
+   96  python
+   97  python3
+   98  # did some quick calculations in Python
+   99  ls /stat129
+  100  ls /stat129 | wc
+  101  # There are 5 files inside /stat129
+  102  # How large are these files?
+  103  du -h /stat129
+  104  # This says there are 439 MB worth of files in the directory /stat129
+  105  du -h /stat129/2020.csv.gz
+  106  # This particular file is 155 MB
+  107  # What kind of file is it?
+  108  file /stat129/2020.csv.gz
+  109  # 1.29 billion ...
+  110  # bytes
+  111  # What does compressed mean?
+  112  gzip -l /stat129/2020.csv.gz
+  113  # The file, when compressed, is 87.5% smaller
+  114  du -h /stat129/2020.csv.gz
+  115  # 162 million bytes when compressed
+  116  # Yet du -h says 155 MB
+  117  # du - disk usage
+  118  # Why 162 million bytes and 155 MB?
+  119  # What's a KB? (Kilobyte)
+  120  python
+  121  python3
+  122  python
+  123  # bytes
+  124  # KB - 2^10
+  125  # MB - 2^20
+  126  # GB gigabytes
+  127  # TB Terabytes
+  128  # PB Petabytes
+  129  # Exabytes??? look it up
+  130  # In this class- we'll get to data on the order of
+  131  # GB and TB
+  132  # let's look at our data
+  133  ls /stat129
+  134  zcat /stat129/2020.csv.gz | head
+  135  # | head - look at the first 10 lines of data
+  136  # zcat - concatenate a gzipped text file
+  137  # What's the form / structure of this data?
+  138  # What patterns do you observe?
+  139  # We see many commas
+  140  # This is actually a CSV file
+  141  # CSV - comma separated (variable)
+  142  # Each row is an observation
+  143  # Each column is separated by a ,
+  144  # How many columns?
+  145  # 7 commas, that means 8 columns
+  146  echo "name,eye
+clark,blue
+jackie,brown
+neida,brown" > eyes.csv
+  147  cat eyes.csv
+  148  zcat /stat129/2020.csv.gz | head
+  149  # verify our understanding of the bytes
+  150  cat eyes.csv
+  151  cat eyes.csv | wc
+  152  zcat /stat129/2020.csv.gz | wc
+  153  # How many lines?
+  154  # About 36 million
+  155  # about 1.3 billion bytes / character
+  156  gzip -l /stat129/2020.csv.gz
+  157  # What would you like to know about 2020.csv.gz?
+  158  zcat /stat129/2020.csv.gz | head
+  159  # Share with your neighbor
+  160  # How much missing data is in each column?
+  161  # do we have a unique identifier for each row?
+  162  # What do the columns / rows represent?
+  163  # That's my first question when looking at tabular data
+  164  echo "123" | xxd -b
+  165  echo "hi 123" | xxd -b
+  166  zcat /stat129/2020.csv.gz | head
+  167  grep "AE000041196" /stat129/*.txt
+  168  # grep - global regular expression pattern matching
+  169  # look for the pattern "AE000041196" in all the files ending in .txt in the /stat129 directory
+  170  history
+clark@nsm-stats:~$ ls
+2024-01-24.sh  2024-01-29.txt  eyes.csv  name.txt  stat129
+clark@nsm-stats:~$ less 2024-01-29.txt
+clark@nsm-stats:~$ less 2024-01-29.txt ^C
+clark@nsm-stats:~$ history > 2024-01-29.txt
+clark@nsm-stats:~$ ls
+2024-01-24.sh  2024-01-29.txt  eyes.csv  name.txt  stat129
+clark@nsm-stats:~$ less 2024-01-29.txt
+clark@nsm-stats:~$ We may have seats available. Please attend class on Tuesday and speak with me after class.
+We: command not found
+clark@nsm-stats:~$
+clark@nsm-stats:~$ Best,
+Best,: command not found
+clark@nsm-stats:~$
+clark@nsm-stats:~$ Clark Fitzgerald | Assistant Professor
+Clark: command not found
+Command 'Assistant' not found, did you mean:
+  command 'assistant' from deb qtchooser (66-2build1)
+Try: apt install <deb name>
+clark@nsm-stats:~$ Department of Mathematics and Statistics
+Department: command not found
+clark@nsm-stats:~$ Sacramento State
+Sacramento: command not found
+clark@nsm-stats:~$ signature_1740648685^C
+clark@nsm-stats:~$
