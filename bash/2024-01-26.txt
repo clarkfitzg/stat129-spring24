@@ -1,0 +1,21 @@
+
+The gist of this lecture was to login to our server and get the idea of ssh to a remote machine.
+First connect to the campus network, and then:
+
+ssh username@nsm-stats.csus.edu
+
+   10  ls
+   11  whoami
+   12  exit
+   13  pwd
+   14  ls
+   15  pwd
+   16  # Pick a password
+   17  # passphrase
+   18  # change our passwords
+   19  passwd 
+   20  pwd
+   21  ls
+   22  mkdir stat129
+   23  ls
+   24  exit
