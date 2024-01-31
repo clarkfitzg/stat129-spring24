@@ -49,17 +49,478 @@
 1
 1" | uniq
   364  # Write a pipeline to get the set of unique animals in animals.csv, with no repetition of animals
-  365  cd ~
-  366  ls
-  367  cd stat129-spring24/
-  368  ls
-  369  cd bash
-  370  ls
-  371  history
-  372  man history
-  373  history -50
-  374  history -n50
-  375  man history
-  376  history | tail -n 50
-  377  history | tail -n 100
-  378  history | tail -n 100 > 2024-01-31-pipes-filters.txt
+
+############################################################
+# BEGIN CLASS
+############################################################
+
+clark@nsm-stats:~$
+clark@nsm-stats:~$ clear
+clark@nsm-stats:~$ wget https://swcarpentry.github.io/shell-novice/data/shel
+l-lesson-data.zip
+--2024-01-31 20:10:42--  https://swcarpentry.github.io/shell-novice/data/she
+ll-lesson-data.zip
+Resolving swcarpentry.github.io (swcarpentry.github.io)... 185.199.111.153,
+185.199.108.153, 185.199.110.153, ...
+Connecting to swcarpentry.github.io (swcarpentry.github.io)|185.199.111.153|
+:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 460289 (450K) [application/zip]
+Saving to: ‘shell-lesson-data.zip.1’
+
+shell-lesson-data.z 100%[===================>] 449.50K  --.-KB/s    in 0.05s
+
+
+2024-01-31 20:10:42 (8.54 MB/s) - ‘shell-lesson-data.zip.1’ saved [460289/46
+0289]
+
+clark@nsm-stats:~$ ls
+2024-01-24.sh  name.txt           shell-lesson-data.zip    stat129-spring24
+eyes.csv       shell-lesson-data  shell-lesson-data.zip.1
+clark@nsm-stats:~$ rm -r shell-lesson-data
+clark@nsm-stats:~$ ls
+2024-01-24.sh  name.txt               shell-lesson-data.zip.1
+eyes.csv       shell-lesson-data.zip  stat129-spring24
+clark@nsm-stats:~$ wget https://swcarpentry.github.io/shell-novice/data/shel
+l-lesson-data.zip^C
+clark@nsm-stats:~$ file shell-lesson-data.zip
+shell-lesson-data.zip: Zip archive data, at least v1.0 to extract, compressi
+on method=store
+clark@nsm-stats:~$ unzip shell-lesson-data.zip
+Archive:  shell-lesson-data.zip
+   creating: shell-lesson-data/
+   creating: shell-lesson-data/north-pacific-gyre/
+   creating: shell-lesson-data/exercise-data/
+   creating: shell-lesson-data/exercise-data/writing/
+  inflating: shell-lesson-data/exercise-data/writing/LittleWomen.txt
+  inflating: shell-lesson-data/exercise-data/writing/haiku.txt
+   creating: shell-lesson-data/exercise-data/creatures/
+  inflating: shell-lesson-data/exercise-data/creatures/basilisk.dat
+  inflating: shell-lesson-data/exercise-data/creatures/unicorn.dat
+  inflating: shell-lesson-data/exercise-data/creatures/minotaur.dat
+   creating: shell-lesson-data/exercise-data/animal-counts/
+  inflating: shell-lesson-data/exercise-data/animal-counts/animals.csv
+ extracting: shell-lesson-data/exercise-data/numbers.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE01978B.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE02018B.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE01736A.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE01751A.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE02043B.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE02040B.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE01751B.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE02040Z.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE01971Z.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE01812A.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE01729A.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE02043A.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE01729B.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE01843A.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE02040A.txt
+  inflating: shell-lesson-data/north-pacific-gyre/NENE01978A.txt
+  inflating: shell-lesson-data/north-pacific-gyre/goodiff.sh
+  inflating: shell-lesson-data/north-pacific-gyre/goostats.sh
+  inflating: shell-lesson-data/north-pacific-gyre/NENE01843B.txt
+   creating: shell-lesson-data/exercise-data/alkanes/
+  inflating: shell-lesson-data/exercise-data/alkanes/methane.pdb
+  inflating: shell-lesson-data/exercise-data/alkanes/propane.pdb
+  inflating: shell-lesson-data/exercise-data/alkanes/ethane.pdb
+  inflating: shell-lesson-data/exercise-data/alkanes/pentane.pdb
+  inflating: shell-lesson-data/exercise-data/alkanes/octane.pdb
+  inflating: shell-lesson-data/exercise-data/alkanes/cubane.pdb
+clark@nsm-stats:~$
+clark@nsm-stats:~$ ls
+2024-01-24.sh  name.txt           shell-lesson-data.zip    stat129-spring24
+eyes.csv       shell-lesson-data  shell-lesson-data.zip.1
+clark@nsm-stats:~$
+clark@nsm-stats:~$ cd shell-lesson-data/
+clark@nsm-stats:~/shell-lesson-data$ ls
+exercise-data  north-pacific-gyre
+clark@nsm-stats:~/shell-lesson-data$ cd exercise-data/
+clark@nsm-stats:~/shell-lesson-data/exercise-data$ cd alkanes/
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ ls
+cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ ls
+cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # find out how ma
+ny lines are in these files
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb
+  20  156 1158 cubane.pdb
+  12   84  622 ethane.pdb
+   9   57  422 methane.pdb
+  30  246 1828 octane.pdb
+  21  165 1226 pentane.pdb
+  15  111  825 propane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc cubane.pdb eth
+ane.pdb methane.pdb
+  20  156 1158 cubane.pdb
+  12   84  622 ethane.pdb
+   9   57  422 methane.pdb
+  41  297 2202 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb
+
+  20  156 1158 cubane.pdb
+  12   84  622 ethane.pdb
+   9   57  422 methane.pdb
+  30  246 1828 octane.pdb
+  21  165 1226 pentane.pdb
+  15  111  825 propane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb
+  20  156 1158 cubane.pdb
+  12   84  622 ethane.pdb
+   9   57  422 methane.pdb
+  30  246 1828 octane.pdb
+  21  165 1226 pentane.pdb
+  15  111  825 propane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb > length
+s.txt
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ ls
+cubane.pdb  lengths.txt  octane.pdb   propane.pdb
+ethane.pdb  methane.pdb  pentane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ cat lengths.txt
+  20  156 1158 cubane.pdb
+  12   84  622 ethane.pdb
+   9   57  422 methane.pdb
+  30  246 1828 octane.pdb
+  21  165 1226 pentane.pdb
+  15  111  825 propane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # contents of the
+ file
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # have the result
+ of wc *.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ sort lengths.txt
+ 107  819 6081 total
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+  20  156 1158 cubane.pdb
+  21  165 1226 pentane.pdb
+  30  246 1828 octane.pdb
+   9   57  422 methane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ cat lengths.txt
+  20  156 1158 cubane.pdb
+  12   84  622 ethane.pdb
+   9   57  422 methane.pdb
+  30  246 1828 octane.pdb
+  21  165 1226 pentane.pdb
+  15  111  825 propane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # Explain to your
+ neighbor what sort is doing here.
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ sort lengths.txt
+
+ 107  819 6081 total
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+  20  156 1158 cubane.pdb
+  21  165 1226 pentane.pdb
+  30  246 1828 octane.pdb
+   9   57  422 methane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ echo "100
+> 20"
+100
+20
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ echo "100
+20" | sort
+100
+20
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ echo "100
+20
+> 100"
+100
+20
+100
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ echo "100
+20
+100"
+100
+20
+100
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ echo "100
+20
+100" | sort
+100
+100
+20
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ echo "100
+20
+100" | sort -n
+20
+100
+100
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # sort -n for num
+eric sort
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ sort lengths.txt
+
+ 107  819 6081 total
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+  20  156 1158 cubane.pdb
+  21  165 1226 pentane.pdb
+  30  246 1828 octane.pdb
+   9   57  422 methane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ sort lengths.txt
+-n
+   9   57  422 methane.pdb
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+  20  156 1158 cubane.pdb
+  21  165 1226 pentane.pdb
+  30  246 1828 octane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ sort lengths.txt
+
+ 107  819 6081 total
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+  20  156 1158 cubane.pdb
+  21  165 1226 pentane.pdb
+  30  246 1828 octane.pdb
+   9   57  422 methane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # -n that's an op
+tion for sort
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ sort lengths.txt
+-n > sorted-lengths.txt
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ ls
+cubane.pdb  lengths.txt  octane.pdb   propane.pdb
+ethane.pdb  methane.pdb  pentane.pdb  sorted-lengths.txt
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # let's look at t
+he first 3 entries
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ head -n 3 sorted-
+lengths.txt
+   9   57  422 methane.pdb
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$
+ head -n 3 sorted-lengths.txt
+   9   57  422 methane.pdb
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ clark@nsm-stats:~
+/shell-lesson-data/exercise-data/alkanes$ # I can combine multiple steps at
+once
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # pipeline in UNI
+X
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ clark@nsm-stats:~
+/shell-lesson-data/exercise-data/alkanes$ sort -n lengths.txt | head -n 3
+   9   57  422 methane.pdb
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # Let's combine e
+verything we did into one pipeline
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb
+  20  156 1158 cubane.pdb
+  12   84  622 ethane.pdb
+   9   57  422 methane.pdb
+  30  246 1828 octane.pdb
+  21  165 1226 pentane.pdb
+  15  111  825 propane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | sort -
+n
+   9   57  422 methane.pdb
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+  20  156 1158 cubane.pdb
+  21  165 1226 pentane.pdb
+  30  246 1828 octane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | sort -
+n | head -n 3
+   9   57  422 methane.pdb
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ clark@nsm-stats:~
+/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | sort -n | head -n 3 > s
+mall3.txt
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ ls
+cubane.pdb   methane.pdb  propane.pdb
+ethane.pdb   octane.pdb   small3.txt
+lengths.txt  pentane.pdb  sorted-lengths.txt
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # predict what wi
+ll happen when we change order of head and sort
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | sort -
+n | head -n 3 > small3.txt
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | sort -
+n | head -n 3
+   9   57  422 methane.pdb
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | head -
+n | sort -n^C
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb
+  20  156 1158 cubane.pdb
+  12   84  622 ethane.pdb
+   9   57  422 methane.pdb
+  30  246 1828 octane.pdb
+  21  165 1226 pentane.pdb
+  15  111  825 propane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | head -
+n 3
+  20  156 1158 cubane.pdb
+  12   84  622 ethane.pdb
+   9   57  422 methane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | head -
+n 3 | sort -n
+   9   57  422 methane.pdb
+  12   84  622 ethane.pdb
+  20  156 1158 cubane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | sort -
+n | head -n 3
+   9   57  422 methane.pdb
+  12   84  622 ethane.pdb
+  15  111  825 propane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ clark@nsm-stats:~
+/shell-lesson-data/exercise-data/alkanes$ # find the 3 files with the most l
+ines
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ clark@nsm-stats:~
+/shell-lesson-data/exercise-data/alkanes$ wc *.pdb
+
+  20  156 1158 cubane.pdb
+  12   84  622 ethane.pdb
+   9   57  422 methane.pdb
+  30  246 1828 octane.pdb
+  21  165 1226 pentane.pdb
+  15  111  825 propane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # tail
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | sort -
+n | tail -n 3
+  21  165 1226 pentane.pdb
+  30  246 1828 octane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ # Can you do it w
+ith head?
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ clark@nsm-stats:~
+/shell-lesson-data/exercise-data/alkanes$ ls
+cubane.pdb   methane.pdb  propane.pdb
+ethane.pdb   octane.pdb   small3.txt
+lengths.txt  pentane.pdb  sorted-lengths.txt
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | sort -
+n | tail -n 4
+  20  156 1158 cubane.pdb
+  21  165 1226 pentane.pdb
+  30  246 1828 octane.pdb
+ 107  819 6081 total
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ wc *.pdb | sort -
+n | tail -n 4 | head -n 3
+  20  156 1158 cubane.pdb
+  21  165 1226 pentane.pdb
+  30  246 1828 octane.pdb
+clark@nsm-stats:~/shell-lesson-data/exercise-data/alkanes$ cd
+clark@nsm-stats:~$ pwd
+/home/clark
+clark@nsm-stats:~$ cd shell-lesson-data/
+clark@nsm-stats:~/shell-lesson-data$ ls
+exercise-data  north-pacific-gyre
+clark@nsm-stats:~/shell-lesson-data$ cd exercise-data/
+clark@nsm-stats:~/shell-lesson-data/exercise-data$ ls
+alkanes  animal-counts  creatures  numbers.txt  writing
+clark@nsm-stats:~/shell-lesson-data/exercise-data$ cd animal-counts/
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-co
+unts$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ pwd
+/home/clark/shell-lesson-data/exercise-data/animal-counts
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ ls
+animals.csv
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ file animal
+s.csv
+animals.csv: CSV text
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ head animal
+s.csv
+2012-11-05,deer,5
+2012-11-05,rabbit,22
+2012-11-05,raccoon,7
+2012-11-06,rabbit,19
+2012-11-06,deer,2
+2012-11-06,fox,4
+2012-11-07,rabbit,16
+2012-11-07,bear,1
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ # how many
+lines?
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ wc -l anima
+ls.csv
+8 animals.csv
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ cat animals
+.csv
+2012-11-05,deer,5
+2012-11-05,rabbit,22
+2012-11-05,raccoon,7
+2012-11-06,rabbit,19
+2012-11-06,deer,2
+2012-11-06,fox,4
+2012-11-07,rabbit,16
+2012-11-07,bear,1
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ cut -d , -f
+ 2 animals.csv
+deer
+rabbit
+raccoon
+rabbit
+deer
+fox
+rabbit
+bear
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ # Explain t
+o your neighbor what this command did
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ cat animals
+.csv
+2012-11-05,deer,5
+2012-11-05,rabbit,22
+2012-11-05,raccoon,7
+2012-11-06,rabbit,19
+2012-11-06,deer,2
+2012-11-06,fox,4
+2012-11-07,rabbit,16
+2012-11-07,bear,1
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ cut -d , -f
+ 2 animals.csv
+deer
+rabbit
+raccoon
+rabbit
+deer
+fox
+rabbit
+bear
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-c
+counts$ # man for manual
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ # what opti
+ons are passed for cut?
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ # -d and -f
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ man cut
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-c
+ounts$ cat animals.csv
+2012-11-05,deer,5
+2012-11-05,rabbit,22
+2012-11-05,raccoon,7
+2012-11-06,rabbit,19
+2012-11-06,deer,2
+2012-11-06,fox,4
+2012-11-07,rabbit,16
+2012-11-07,bear,1
+clark@nsm-stats:~/shell-lesson-data/exercise-data/animal-counts$ cut -d , -f
+ 2 animals.csv
+deer
+rabbit
+raccoon
+rabbit
+deer
+fox
+rabbit
+bear
+
