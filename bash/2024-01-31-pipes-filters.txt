@@ -1,0 +1,65 @@
+  319  # announcements:
+  320  # 1. First quiz a week from Monday, covering previous weeks homework
+  321  # 2. Notes are available on Github
+  322  #    (See Canvas for link)
+  323  # 3. Next homework posted (I'm trying hard to cover material well before due date)
+  324  # Today's material is from Software Carpentry:
+  325  # https://swcarpentry.github.io/shell-novice/04-pipefilter.html
+  326  # Goal: Combine shell commands with pipes
+  327  # Download the data
+  328  wget https://swcarpentry.github.io/shell-novice/data/shell-lesson-data.zip
+  329  unzip shell-lesson-data.zip 
+  330  cd shell-lesson-data/exercise-data/alkanes/
+  331  ls
+  332  wc *.pdb
+  333  wc -l *.pdb
+  334  wc -l *.pdb > lengths.txt
+  335  cd ..
+  336  ls
+  337  sort numbers.txt 
+  338  sort -n numbers.txt 
+  339  # What is the option -n for sort doing?
+  340  cd alkanes/
+  341  sort -n lengths.txt 
+  342  sort -n lengths.txt > sorted-lengths.txt
+  343  head -n 1 sorted-lengths.txt 
+  344  head -n 3 sorted-lengths.txt 
+  345  sort -n lengths.txt | head -n 3
+  346  wc -l *.pdb | sort -n | head -n 3
+  347  ls
+  348  tail lengths.txt
+  349  tail lengths.txt -n 3
+  350  # Your turn: find the 3 files with the shortest lengths
+  351  # Your turn: find the 3 files with the longest lengths
+  352  # TODO: board, explain idea of pipes
+  353  cd ..
+  354  ls
+  355  cd animal-counts/
+  356  ls
+  357  $ cat animals.csv | head -n 5 | tail -n 3 | sort -r > final.txt
+  358  cat animals.csv | head -n 5 | tail -n 3 | sort -r > final.txt
+  359  # Your turn: explain what the output is after each command in the pipeline
+  360  cut -d , -f 2 animals.csv
+  361  wc -l animals.csv 
+  362  # uniq removes adjacent lines that are exactly the same
+  363  echo "1
+1
+2
+1
+1
+1" | uniq
+  364  # Write a pipeline to get the set of unique animals in animals.csv, with no repetition of animals
+  365  cd ~
+  366  ls
+  367  cd stat129-spring24/
+  368  ls
+  369  cd bash
+  370  ls
+  371  history
+  372  man history
+  373  history -50
+  374  history -n50
+  375  man history
+  376  history | tail -n 50
+  377  history | tail -n 100
+  378  history | tail -n 100 > 2024-01-31-pipes-filters.txt
