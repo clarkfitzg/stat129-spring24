@@ -3,16 +3,6 @@ Goals:
 
 Select columns from data in fixed width and CSV format
 Sort data based on a key
-Announcements:
-
-Data Science club meeting at 3pm today 
-example data on github: https://github.com/clarkfitzg/stat129-spring23Links to an external site. 
-# How many observations are in sac_stations.csv?
-# wc counts how many lines are in a file
-# wc counts the lines, words, and characters in a file
-wc /examples/sac_stations.csv  
-# 29 lines                                                          
-# How many are in /examples/2022small?
 
 
 # Let's find all the snow observations in february                                                                                      
