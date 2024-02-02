@@ -1,0 +1,53 @@
+Goal: Create minimal examples to experiment with shell commands.
+
+If you're working with a data set that has 10 billion rows and 30 columns, then start by experimenting with a tiny subset where the whole thing fits comfortably on the screen- say 5 rows and 6 columns. Get your program working on the subset.
+
+How to learn:
+
+Write explicitly the work you're trying to perform.
+Start with the simplest possible case / example.
+Experiment.
+Modify your mental model of what's happening.
+
+# print "hello there" to stdout
+echo "hello there"
+# > redirects stdout into a file
+ls
+# we have no file called "hi.txt"
+echo "hello there" > hi.txt
+ls
+cat hi.txt
+# Verify. Always!
+
+
+# The Sacramento stations:
+grep -i "sacramento" /stat129/ghcnd-stations.txt 
+grep -i "sacramento" /stat129/ghcnd-stations.txt | tail -n 4
+# Save the last 4 sacramento stations into a file:
+grep -i "sacramento" /stat129/ghcnd-stations.txt | tail -n 4 > sac4.txt
+
+
+# Our files are compresssed with gzip, so let's figure that out.
+gzip hi.txt
+ls
+file hi.txt
+file hi.txt.gz 
+cat hi.txt
+cat hi.txt.gz 
+# Gibberish!
+# You cannot print out and read a binary file.
+# Plain text you can. That's the difference.
+# We need to uncompress the data
+zcat hi.txt.gz 
+
+
+# Let's find the records from a couple of the Sacramento stations.
+cat sac4.txt 
+zcat /stat129/2021.csv.gz | grep "USW00093225" | tail > smf10.csv
+cat smf10.csv 
+# Save the last 10 observations from 2022 into a file.
+
+# Exercises
+1. Create gzip compressed versions of each of the small files we created. Read the documentation for gzip to figure out how to keep the original files as well.
+2. Find 10 TMAX observations for one of the Sacramento stations.
+3. Use cut to select the numeric values corresponding to TMAX.
