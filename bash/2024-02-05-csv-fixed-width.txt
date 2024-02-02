@@ -1,0 +1,51 @@
+
+Goals:
+
+Select columns from data in fixed width and CSV format
+Sort data based on a key
+Announcements:
+
+Data Science club meeting at 3pm today 
+example data on github: https://github.com/clarkfitzg/stat129-spring23Links to an external site. 
+# How many observations are in sac_stations.csv?
+# wc counts how many lines are in a file
+# wc counts the lines, words, and characters in a file
+wc /examples/sac_stations.csv  
+# 29 lines                                                          
+# How many are in /examples/2022small?
+
+
+# Let's find all the snow observations in february                                                                                      
+grep "202202" 2022small.csv                                         
+grep "202202.*SNOW" 2022small.csv                                   
+# The .* in 2022.*SNOW matches any character (.) 0 or more times (*) 
+
+
+head sac_stations                                                   
+head sac_stations.txt              
+# TPS- What's different about the structure of the two files sac_stations.txt and 2022small.csv?
+# sac_stations is FIXED WIDTH FORMAT, meaning it uses the same number of characters for each "column"                                             
+cut sac_stations.txt -f13,20
+# cut cuts out columns of data                                                                                                            
+man cut                                                             
+cut sac_stations.txt -c14-20 | head
+# selects characters in position 14 through 20
+
+
+# CSV files                                             
+# Try to use cut to select the last column (time) from 2022small.csv                                                                    
+cut 2022small.csv -c25-       
+cut 2022small.csv -c30-  
+cut 2022small.csv -c33-                                             
+# Got to respect the structure of the comma!                                                                                             
+cut 2022small.csv -d, -f8                                                                                                               
+The -d, means use the comma as the delimiter for each field.        
+ls                            
+
+                                                  
+# Sort the data based on time                                       
+man sort                                                                                              
+sort 2022small.csv                                                                                                             
+sort 2022small.csv --reverse                                        
+man sort                                                                                    
+sort 2022small.csv --field-separator=, -k2        
