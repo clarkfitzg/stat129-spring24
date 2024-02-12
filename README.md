@@ -3,3 +3,5 @@
 Spring 2024 Stat 129 class at CSU Sacramento
 
 Lecture notes
+
+Testing tmux...
