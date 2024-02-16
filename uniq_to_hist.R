@@ -1,3 +1,11 @@
+# Usage:
+# First create tempcount.txt containing the results of uniq -c for all the temperature observations.
+# Then run the following:
+# 
+# $ Rscript uniq_to_hist.R tempcount.txt
+#
+# This will produce a file temp_histogram.pdf
+
 hist_from_count = function(countfile, upper = 140, lower = -60, varname = "temperature (degrees F)", ...)
 {
     # Plot a histogram of the temperature for our weather data.
@@ -27,7 +35,8 @@ hist_from_count = function(countfile, upper = 140, lower = -60, varname = "tempe
 
 
 # Example usage, assuming you've saved resulting table as temp_counts.txt
-h = hist_from_count("temp_counts.txt")
+args = commandArgs(TRUE)
+h = hist_from_count(args[1])
 pdf("temp_histogram.pdf")
 plot(h)
 dev.off()
