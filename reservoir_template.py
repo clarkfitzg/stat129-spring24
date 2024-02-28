@@ -5,10 +5,9 @@ import unittest
 def rsample(stream, size=10):
     """
     Produce a simple random sample with `size` elements from `stream`
+    using reservoir sampling, without collecting stream into memory
     """
-    # TODO: Replace pass below with the actual code to implement reservoir sampling.
-    # That's your assignment.
-    # Then show that it works on the test cases and in the case described in the assignment.
+    # TODO: Replace pass below with the actual code. 
     pass
 
 
@@ -40,10 +39,12 @@ class rsampleTest(unittest.TestCase):
 
     def test_not_begin(self):
         n = int(1e6)
+        d = range(n)
         s = rsample(d)
         self.assertTrue(1000 < max(s))
 
     def test_not_end(self):
         n = int(1e6)
+        d = range(n)
         s = rsample(d)
         self.assertTrue(min(s) < (n - 1000))
