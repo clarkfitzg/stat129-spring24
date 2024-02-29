@@ -35,7 +35,7 @@ class rsampleTest(unittest.TestCase):
         n = 100
         d = range(n)
         s = rsample(d, n)
-        self.assertEqual(len(s), d)
+        self.assertEqual(len(s), n)
         self.assertNotEqual(s, list(d))
 
     def test_not_begin(self):
