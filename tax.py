@@ -73,3 +73,9 @@ from multiprocessing import Pool
 # 10 parallel workers
 with Pool(10) as p:
     r = p.map(extract, all990)
+
+# Nice, it was faster than I expected:
+#
+#    In [57]: %time %run tax.py
+#    CPU times: user 14.8 s, sys: 1.31 s, total: 16.1 s
+#    Wall time: 1min 42s
