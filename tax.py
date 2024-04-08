@@ -1,5 +1,7 @@
 # /opt/anaconda/bin/ipython
 
+# If you're using this script, please clean it up and delete whatever is not essential.
+
 import os
 import random
 import re
@@ -51,16 +53,16 @@ def extract(xmlfile):
         try:
             result[f] = tree.xpath("/Return/ReturnData/IRS990/" + f + "/text()")[0]
         except:
-            # didn't work!
-            # There are certainly better ways to handle this.
-            result[f] = None
+            # xpath fails for some reason, so just give up!
+            # A better way to handle this is to actually *look* 
+            # at this XML file, which may have a different structure.
+            return None
     return result
 
 # Test our function
 r3 = extract(s990[3])
 
-
-# Apply our function to many files
+# Apply our function to the small sample of files
 rn = map(extract, s990)
 
 # Convert it to a list, because map is lazy
@@ -72,10 +74,15 @@ from multiprocessing import Pool
 
 # 10 parallel workers
 with Pool(10) as p:
+    # Parallel map
     r = p.map(extract, all990)
+
+# Non parallel:
+# rn = map(extract, s990)
 
 # Nice, it was faster than I expected:
 #
 #    In [57]: %time %run tax.py
 #    CPU times: user 14.8 s, sys: 1.31 s, total: 16.1 s
 #    Wall time: 1min 42s
+
