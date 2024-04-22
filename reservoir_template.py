@@ -14,7 +14,8 @@ def rsample(stream, size=10):
 class rsampleTest(unittest.TestCase):
     
     def test_defaults(self):
-        s = rsample(range(20))
+        g = (i**2 for i in range(20))
+        s = rsample(g)
         self.assertEqual(len(s), 10)
         
     def test_too_small_input(self):
